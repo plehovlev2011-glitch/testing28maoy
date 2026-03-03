@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Домашняя работа: Геометрия и Алгебра</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; color: #333; line-height: 1.6; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .header { text-align: center; border-bottom: 2px solid #007bff; margin-bottom: 20px; padding-bottom: 10px; }
+        .timer { position: fixed; top: 20px; right: 20px; background: #ff4757; color: white; padding: 10px 20px; border-radius: 20px; font-weight: bold; font-size: 1.2em; z-index: 1000; }
+        .question { margin-bottom: 25px; padding: 15px; border: 1px solid #eee; border-radius: 10px; }
+        .options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        button { padding: 10px; cursor: pointer; border: 1px solid #007bff; background: white; border-radius: 5px; transition: 0.3s; }
+        button:hover { background: #007bff; color: white; }
+        .feedback { font-weight: bold; margin-top: 10px; min-height: 24px; }
+        .correct { color: #2ed573; }
+        .wrong { color: #ff4757; }
+        .hidden { display: none; }
+        #start-screen { text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="timer" id="timer">90:00</div>
+
+<div class="container" id="start-screen">
+    <h1>Домашняя работа по математике</h1>
+    <h3>Ученик: <b>Плехов Лев Александрович</b></h3>
+    <p>МАОУ ЛИнТех №28, г. Киров</p>
+    <p>Темы: Теория Синус/Косинус, Квадратные уравнения (ОГЭ)</p>
+    <p>Время на выполнение: <b>90 минут</b></p>
+    <button onclick="startTest()" style="padding: 15px 40px; font-size: 1.2em; background: #007bff; color: white;">Начать работу</button>
+</div>
+
+<div class="container hidden" id="test-screen">
+    <div class="header">
+        <h2>Вопросы теста</h2>
+    </div>
+    <div id="quiz-container"></div>
+    <div style="text-align: center; margin-top: 30px;">
+        <button onclick="location.reload()" style="background: #747d8c; color: white;">Сбросить тест</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        // ТЕОРИЯ: СИНУС И КОСИНУС (12 вопросов)
+        { q: "Что называется синусом острого угла прямоугольного треугольника?", a: ["Отношение противолежащего катета к гипотенузе", "Отношение прилежащего катета к гипотенузе", "Отношение катетов", "Произведение катетов"], c: 0 },
+        { q: "Что называется косинусом острого угла прямоугольного треугольника?", a: ["Отношение прилежащего катета к гипотенузе", "Отношение противолежащего катета к гипотенузе", "Отношение гипотенузы к катету", "Сумма квадратов катетов"], c: 0 },
+        { q: "В каких пределах может находиться значение синуса острого угла?", a: ["От 0 до 1", "От -1 до 1", "От 0 до бесконечности", "Только больше 1"], c: 0 },
+        { q: "Чему равно основное тригонометрическое тождество?", a: ["$$\\sin^2 \\alpha + \\cos^2 \\alpha = 1$$", "$$\\sin \\alpha + \\cos \\alpha = 1$$", "$$\\sin^2 \\alpha - \\cos^2 \\alpha = 1$$", "$$\\tan \\alpha = 1$$"], c: 0 },
+        { q: "Чему равен $\\sin 30^\\circ$?", a: ["$$1/2$$", "$$\\sqrt{3}/2$$", "$$\\sqrt{2}/2$$", "1"], c: 0 },
+        { q: "Чему равен $\\cos 60^\\circ$?", a: ["$$1/2$$", "$$\\sqrt{3}/2$$", "0", "1"], c: 0 },
+        { q: "Если синус угла равен $\\cos 20^\\circ$, то этот угол равен:", a: ["$$70^\\circ$$", "$$20^\\circ$$", "$$90^\\circ$$", "$$160^\\circ$$"], c: 0 },
+        { q: "Тангенс угла — это отношение:", a: ["Синуса к косинусу", "Косинуса к синусу", "Катета к гипотенузе", "Гипотенузы к катету"], c: 0 },
+        { q: "В прямоугольном треугольнике гипотенуза всегда...", a: ["Больше любого из катетов", "Меньше катета", "Равна сумме катетов", "Равна 1"], c: 0 },
+        { q: "Чему равен $\\cos 90^\\circ$?", a: ["0", "1", "$$1/2$$", "Не существует"], c: 0 },
+        { q: "Чему равен $\\sin 90^\\circ$?", a: ["1", "0", "0.5", "$$\\sqrt{3}$$"], c: 0 },
+        { q: "Как изменится синус острого угла при увеличении самого угла?", a: ["Увеличится", "Уменьшится", "Не изменится", "Станет отрицательным"], c: 0 },
+
+        // АЛГЕБРА: ДИСКРИМИНАНТ И УРАВНЕНИЯ (12 вопросов)
+        { q: "Формула дискриминанта уравнения $$ax^2 + bx + c = 0$$:", a: ["$$D = b^2 - 4ac$$", "$$D = b^2 + 4ac$$", "$$D = a^2 - 4bc$$", "$$D = -b \\pm \\sqrt{D}$$"], c: 0 },
+        { q: "Сколько корней имеет уравнение, если $$D > 0$$?", a: ["2", "1", "0", "Бесконечно"], c: 0 },
+        { q: "Сколько корней имеет уравнение, если $$D < 0$$?", a: ["Корней нет", "1", "2", "Один положительный"], c: 0 },
+        { q: "Найдите дискриминант уравнения: $$x^2 - 5x + 4 = 0$$", a: ["9", "1", "25", "21"], c: 0 },
+        { q: "Найдите корни уравнения: $$x^2 - 3x + 2 = 0$$", a: ["1; 2", "-1; -2", "0; 3", "2; 3"], c: 0 },
+        { q: "Найдите дискриминант уравнения: $$2x^2 + 3x + 1 = 0$$", a: ["1", "9", "17", "7"], c: 0 },
+        { q: "В уравнении $$x^2 - 6x + 9 = 0$$ дискриминант равен:", a: ["0", "36", "72", "12"], c: 0 },
+        { q: "Если $$D = 0$$, то корень вычисляется по формуле:", a: ["$$-b / (2a)$$", "$$b / (2a)$$", "$$-c / a$$", "$$\\sqrt{c}$$"], c: 0 },
+        { q: "Решите уравнение: $$x^2 - 4 = 0$$", a: ["$$2; -2$$", "2", "4", "Корней нет"], c: 0 },
+        { q: "Найдите дискриминант: $$x^2 + x + 1 = 0$$", a: ["-3", "1", "3", "5"], c: 0 },
+        { q: "Решите уравнение: $$x^2 - 7x = 0$$", a: ["0; 7", "7", "0; -7", "49"], c: 0 },
+        { q: "Найдите корень уравнения $$x^2 - 64 = 0$$, который больше 0:", a: ["8", "64", "4", "16"], c: 0 }
+    ];
+
+    function startTest() {
+        document.getElementById('start-screen').classList.add('hidden');
+        document.getElementById('test-screen').classList.remove('hidden');
+        startTimer(90 * 60);
+        renderQuiz();
+    }
+
+    function startTimer(duration) {
+        let timer = duration, minutes, seconds;
+        const display = document.getElementById('timer');
+        setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            display.textContent = minutes + ":" + seconds;
+            if (--timer < 0) { alert("Время вышло!"); location.reload(); }
+        }, 1000);
+    }
+
+    function renderQuiz() {
+        const container = document.getElementById('quiz-container');
+        questions.forEach((item, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `<p><b>Задание ${index + 1}:</b> ${item.q}</p>`;
+            
+            const optDiv = document.createElement('div');
+            optDiv.className = 'options';
+            
+            // Перемешивание ответов, чтобы не всегда первый был верным
+            let indices = [0, 1, 2, 3].sort(() => Math.random() - 0.5);
+            
+            indices.forEach(i => {
+                const btn = document.createElement('button');
+                btn.innerHTML = item.a[i];
+                btn.onclick = () => checkAnswer(index, i, btn);
+                optDiv.appendChild(btn);
+            });
+            
+            qDiv.appendChild(optDiv);
+            qDiv.innerHTML += `<div id="fb-${index}" class="feedback"></div>`;
+            container.appendChild(qDiv);
+        });
+        MathJax.typeset();
+    }
+
+    function checkAnswer(qIdx, aIdx, btn) {
+        const feedback = document.getElementById(`fb-${qIdx}`);
+        const parent = btn.parentElement;
+        const buttons = parent.querySelectorAll('button');
+        
+        buttons.forEach(b => b.disabled = true); // Блокируем после выбора
+
+        if (aIdx === questions[qIdx].c) {
+            const phrases = ["Супер!", "Ого!", "Молодец!"];
+            feedback.innerHTML = `<span class="correct">${phrases[Math.floor(Math.random()*phrases.length)]}</span>`;
+            btn.style.background = "#2ed573";
+            btn.style.color = "white";
+        } else {
+            feedback.innerHTML = `<span class="wrong">Ой...</span>`;
+            btn.style.background = "#ff4757";
+            btn.style.color = "white";
+        }
+    }
+</script>
+
+</body>
+</html>
