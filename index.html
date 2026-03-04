@@ -365,7 +365,7 @@
           <span class="md3-filter-chip" data-country="ru">Russia</span>
         </div>
 
-        <div class="region-section-title" id="state-title">State (US)</div>
+        <div class="region-section-title" id="state-title">Select the state supported by the NewPOS system</div>
         <div class="chip-list" id="state-list-us">
           <span class="md3-filter-chip">Alabama</span><span class="md3-filter-chip">Alaska</span><span class="md3-filter-chip">Arizona</span><span class="md3-filter-chip">Arkansas</span><span class="md3-filter-chip">California</span><span class="md3-filter-chip">Colorado</span><span class="md3-filter-chip">Connecticut</span><span class="md3-filter-chip">Delaware</span><span class="md3-filter-chip">Florida</span><span class="md3-filter-chip">Georgia</span>
         </div>
@@ -385,7 +385,7 @@
       </div>
       <div class="flex-col" style="flex:1;">
         <span class="material-symbols-outlined" style="font-size: 40px;">pin</span>
-        <div style="font-size:26px; font-weight:400;">Create 4-digit PIN</div>
+        <div style="font-size:26px; font-weight:400;">Now, create a four-digit pin code that will be used to log in to the system.</div>
 
         <!-- отображение заполненных кружков -->
         <div class="pin-display">
@@ -502,7 +502,7 @@
         } else {
           stateListUs.style.display = 'none';
           cityListRu.style.display = 'flex';
-          stateTitle.innerText = 'City (Russia)';
+          stateTitle.innerText = 'Choose the city';
         }
         document.querySelectorAll('[data-country]').forEach(chip => chip.classList.remove('selected'));
         document.querySelector(`[data-country="${country}"]`).classList.add('selected');
