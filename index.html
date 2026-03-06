@@ -1,688 +1,259 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>NewPOS 6 · Material Onboarding</title>
-  <!-- Material 3 – полная ширина, анимации, гугл-иконки, пин-пад -->
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контрольная работа: Плехов Лев</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-    body {
-      font-family: 'Roboto', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
-      background: #f4f5f7;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 0;
-    }
+    <style>
+        :root {
+            --md-sys-color-primary: #6750A4;
+            --md-sys-color-on-primary: #FFFFFF;
+            --md-sys-color-surface: #FEF7FF;
+            --md-sys-color-outline: #79747E;
+            --md-sys-color-error: #B3261E;
+            --md-sys-color-success: #2E7D32;
+        }
 
-    /* мобильный контейнер — полная ширина, без внешних отступов */
-    .mobile-frame {
-      width: 100%;
-      max-width: 450px;
-      background-color: #fefbff;
-      min-height: 100vh;
-      height: fit-content;
-      box-shadow: none;
-      border-radius: 0;
-      overflow: hidden;
-      position: relative;
-    }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f6f8fc;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-    /* каждый шаг — flex колонка, анимированное появление */
-    .step {
-      display: none;
-      flex-direction: column;
-      min-height: 100vh;
-      padding: 24px 20px;
-      background-color: #fefbff;
-    }
+        .card {
+            background: var(--md-sys-color-surface);
+            width: 90%;
+            max-width: 500px;
+            padding: 32px;
+            border-radius: 28px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
 
-    .step.active {
-      display: flex;
-      animation: fadeSlideIn 0.3s cubic-bezier(0.2, 0, 0, 1) forwards;
-    }
+        .timer-badge {
+            display: inline-block;
+            background: #EADDFF;
+            color: #21005D;
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
 
-    @keyframes fadeSlideIn {
-      0% {
-        opacity: 0;
-        transform: translateY(12px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+        h1 { font-size: 24px; color: #1C1B1F; margin-bottom: 8px; }
+        h2 { font-size: 18px; color: #49454F; font-weight: 400; margin-bottom: 24px; }
 
-    /* шапка */
-    .md3-topbar {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      height: 56px;
-      margin-bottom: 8px;
-    }
-    .md3-topbar .material-symbols-outlined {
-      font-size: 24px;
-      color: #1f1f1f;
-      cursor: pointer;
-      padding: 8px;
-      border-radius: 50%;
-      transition: background-color 0.2s;
-    }
-    .md3-topbar .material-symbols-outlined:hover {
-      background-color: rgba(0,0,0,0.05);
-    }
+        .btn-main {
+            background: var(--md-sys-color-primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 100px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
 
-    /* кнопки */
-    .md3-button-filled {
-      background-color: #006874;
-      color: white;
-      height: 48px;
-      border-radius: 24px;
-      font-size: 16px;
-      font-weight: 500;
-      border: none;
-      padding: 0 24px;
-      width: 100%;
-      cursor: pointer;
-      transition: background-color 0.2s;
-      letter-spacing: 0.3px;
-    }
-    .md3-button-filled:active { background-color: #004f58; }
-    .md3-button-filled:disabled {
-      background-color: #cac4d0;
-      color: #79747e;
-      cursor: not-allowed;
-    }
+        .btn-main:hover { box-shadow: 0 2px 8px rgba(103, 80, 164, 0.3); }
 
-    .md3-button-outlined {
-      background: transparent;
-      border: 1px solid #79747e;
-      height: 48px;
-      border-radius: 24px;
-      font-size: 16px;
-      font-weight: 500;
-      color: #006874;
-      padding: 0 24px;
-      width: 100%;
-      cursor: pointer;
-      transition: border 0.2s, background-color 0.2s;
-    }
-    .md3-button-outlined:active {
-      background-color: rgba(0,104,116,0.05);
-    }
+        .option-btn {
+            display: block;
+            width: 100%;
+            margin: 12px 0;
+            padding: 16px;
+            text-align: left;
+            border: 1px solid var(--md-sys-color-outline);
+            border-radius: 12px;
+            background: transparent;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
 
-    .md3-button-text {
-      background: transparent;
-      border: none;
-      height: 48px;
-      border-radius: 24px;
-      font-size: 16px;
-      font-weight: 500;
-      color: #006874;
-      padding: 0 24px;
-      width: 100%;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-    .md3-button-text:active {
-      background-color: rgba(0,104,116,0.05);
-    }
+        .option-btn:hover:not(:disabled) { background: #f0edf8; }
 
-    /* stories */
-    .stories-container {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      flex: 1;
-    }
-    .story-indicators {
-      display: flex;
-      gap: 6px;
-      justify-content: center;
-      margin: 8px 0;
-    }
-    .story-dot {
-      height: 4px;
-      flex: 1;
-      background-color: #cac4d0;
-      border-radius: 2px;
-      transition: background-color 0.3s;
-    }
-    .story-dot.active {
-      background-color: #006874;
-    }
+        .feedback {
+            margin-top: 20px;
+            font-weight: 700;
+            font-size: 20px;
+            min-height: 30px;
+        }
 
-    .story-card {
-      background-color: #e6f0f1;
-      border-radius: 24px;
-      padding: 32px 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      text-align: left;
-      gap: 16px;
-      width: 100%;
-      animation: cardPulse 0.4s ease-out;
-    }
-    @keyframes cardPulse {
-      0% { transform: scale(0.98); opacity: 0.8; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .story-icon .material-symbols-outlined {
-      font-size: 40px;
-      color: #006874;
-    }
-    .story-title {
-      font-size: 28px;
-      font-weight: 400;
-      line-height: 36px;
-      color: #1f1f1f;
-    }
-    .story-description {
-      font-size: 16px;
-      color: #49454f;
-      line-height: 24px;
-    }
-
-    /* чипсы регионов */
-    .region-section-title {
-      font-size: 16px;
-      font-weight: 500;
-      color: #1f1f1f;
-      margin: 16px 0 8px;
-    }
-    .chip-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px 12px;
-      max-height: 300px;
-      overflow-y: auto;
-      padding: 4px 0;
-    }
-    .md3-filter-chip {
-      background-color: #f2eef5;
-      border-radius: 8px;
-      height: 40px;
-      padding: 0 16px;
-      display: inline-flex;
-      align-items: center;
-      font-size: 14px;
-      color: #1f1f1f;
-      border: 1px solid #cac4d0;
-      cursor: pointer;
-      transition: background-color 0.2s, border 0.2s, color 0.2s, transform 0.1s;
-    }
-    .md3-filter-chip:active {
-      transform: scale(0.96);
-    }
-    .md3-filter-chip.selected {
-      background-color: #006874;
-      border-color: #006874;
-      color: white;
-    }
-
-    /* поля ввода */
-    .text-field-outlined {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .text-field-outlined label {
-      font-size: 12px;
-      color: #49454f;
-    }
-    .text-field-outlined input {
-      height: 56px;
-      border-radius: 16px;
-      border: 1px solid #79747e;
-      background: transparent;
-      padding: 0 16px;
-      font-size: 16px;
-      outline: none;
-      color: #1f1f1f;
-      transition: border 0.2s;
-    }
-    .text-field-outlined input:focus {
-      border-color: #006874;
-      border-width: 2px;
-    }
-
-    /* PIN-клавиатура (улучшенная, без hide) */
-    .pin-display {
-      background-color: #f2eef5;
-      border-radius: 32px;
-      padding: 32px 24px;
-      margin: 24px 0 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .pin-circles {
-      display: flex;
-      gap: 24px;
-      justify-content: center;
-      margin: 16px 0 32px;
-    }
-    .pin-circle {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background-color: #cac4d0;
-      transition: background-color 0.2s, transform 0.2s;
-    }
-    .pin-circle.filled {
-      background-color: #006874;
-      transform: scale(1.1);
-    }
-
-    .pin-keyboard {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      width: 100%;
-    }
-    .pin-key {
-      width: 70px;
-      height: 70px;
-      border-radius: 35px;
-      background-color: #ffffff;
-      border: 1px solid #e1dfe3;
-      font-size: 28px;
-      font-weight: 400;
-      color: #1f1f1f;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.1s ease;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-      user-select: none;
-    }
-    .pin-key:active {
-      background-color: #e6e1e6;
-      transform: scale(0.92);
-      border-color: #006874;
-    }
-    .pin-key.special {
-      background-color: #f2eef5;
-      border: 1px solid #cac4d0;
-      font-size: 24px;
-    }
-    .pin-key.special:active {
-      background-color: #d9d3db;
-    }
-
-    /* конфиг диалог */
-    .config-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0,0,0,0.4);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      animation: fadeIn 0.2s ease;
-    }
-    .config-dialog {
-      background-color: #fefbff;
-      border-radius: 28px;
-      padding: 24px;
-      max-width: 360px;
-      margin: 20px;
-      animation: slideUp 0.3s cubic-bezier(0.2, 0, 0, 1);
-    }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-    .flex-col { display: flex; flex-direction: column; gap: 20px; }
-    .flex-row { display: flex; gap: 12px; }
-    .mt-16 { margin-top: 16px; }
-    .flex-1 { flex: 1; }
-    .text-center { text-align: center; }
-    .error-text { color: #ba1a1a; font-size: 14px; margin-top: 8px; }
-  </style>
-
-  <!-- шрифты и иконки -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Material+Symbols+Outlined" rel="stylesheet">
+        .hidden { display: none; }
+        
+        #progress {
+            font-size: 14px;
+            color: var(--md-sys-color-outline);
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-  <div class="mobile-frame">
-    <!-- Шаг 0: приветствие -->
-    <div id="step-welcome" class="step active">
-      <div class="md3-topbar"></div>
-      <div class="flex-col" style="flex:1; justify-content: center;">
-        <span class="material-symbols-outlined" style="font-size: 56px; color:#006874;">dashboard</span>
-        <h1 style="font-size: 36px; font-weight: 400; color: #1f1f1f;">Welcome to<br>NewPOS 6</h1>
-        <p style="color: #49454F; font-size: 16px;">Innovative mobile environment for automating all business tasks</p>
-      </div>
-      <div style="flex:1;"></div>
-      <button id="btn-start" class="md3-button-filled">Get started</button>
-    </div>
 
-    <!-- Шаг 1: конфиг диалог (появляется после Get started) -->
-    <div id="config-dialog" class="config-overlay">
-      <div class="config-dialog">
-        <span class="material-symbols-outlined" style="font-size: 32px; color:#006874; margin-bottom:16px;">upload_file</span>
-        <div style="font-size: 22px; font-weight:400; margin-bottom:12px;">Upload configuration?</div>
-        <p style="color:#49454f; margin-bottom:24px;">This will greatly simplify the setup process.</p>
-        <div class="flex-row">
-          <button id="config-skip" class="md3-button-outlined" style="flex:1;">Skip</button>
-          <button id="config-upload" class="md3-button-filled" style="flex:1;">Upload</button>
-        </div>
-        <div id="config-error" class="error-text" style="display: none;">Invalid file format. Please select a valid .json or .cfg</div>
-        <button id="config-continue" class="md3-button-text" style="display: none; margin-top:16px;">Continue setup</button>
-      </div>
-    </div>
+<div class="card" id="start-screen">
+    <div class="timer-badge">90 минут</div>
+    <h1>Плехов Лев Александрович</h1>
+    <h2>МАОУ ЛИнТех28 г.Киров</h2>
+    <p>Домашняя работа: Синус/Косинус и уравнения</p>
+    <button class="btn-main" onclick="startQuiz()">Начать тест</button>
+</div>
 
-    <!-- Шаг 2: три истории -->
-    <div id="step-stories" class="step">
-      <div class="md3-topbar">
-        <span class="material-symbols-outlined" id="back-to-welcome">arrow_back</span>
-      </div>
-      <div class="stories-container">
-        <div class="story-indicators" id="story-indicators">
-          <span class="story-dot active" data-index="0"></span>
-          <span class="story-dot" data-index="1"></span>
-          <span class="story-dot" data-index="2"></span>
-        </div>
-        <div id="story-card" class="story-card">
-          <div class="story-icon"><span class="material-symbols-outlined" id="story-icon">contacts</span></div>
-          <div class="story-title" id="story-title">Smart CRM</div>
-          <div class="story-description" id="story-desc">Manage your employee count and salaries across multiple locations at once - quickly and conveniently with syncing to your devices.</div>
-        </div>
-        <div style="display: flex; gap: 8px; margin-top: auto;">
-          <button id="story-prev" class="md3-button-outlined" style="flex:1;">Previous</button>
-          <button id="story-next" class="md3-button-filled" style="flex:1;">Next</button>
-        </div>
-      </div>
-    </div>
+<div class="card hidden" id="quiz-screen">
+    <div id="timer-display" class="timer-badge">90:00</div>
+    <div id="progress">Вопрос 1 из 40</div>
+    <div id="question-text" style="font-size: 20px; margin-bottom: 20px;"></div>
+    <div id="options-container"></div>
+    <div id="feedback-text" class="feedback"></div>
+</div>
 
-    <!-- Шаг 3: выбор региона (расширенный) -->
-    <div id="step-region" class="step">
-      <div class="md3-topbar">
-        <span class="material-symbols-outlined" id="back-to-stories">arrow_back</span>
-      </div>
-      <div>
-        <div class="region-section-title">Choose where you will manage your business from</div>
-        <div class="chip-list" id="country-list">
-          <span class="md3-filter-chip" data-country="us">United States</span>
-          <span class="md3-filter-chip" data-country="ru">Russia</span>
-        </div>
+<div class="card hidden" id="end-screen">
+    <h1>Работа завершена!</h1>
+    <p id="final-score"></p>
+    <button class="btn-main" onclick="location.reload()">На главную</button>
+</div>
 
-        <div class="region-section-title" id="state-title">Select the state supported by NewPOS</div>
-        <div class="chip-list" id="state-list-us">
-          <!-- 30 штатов -->
-          <span class="md3-filter-chip">Alabama</span><span class="md3-filter-chip">Alaska</span><span class="md3-filter-chip">Arizona</span><span class="md3-filter-chip">Arkansas</span><span class="md3-filter-chip">California</span>
-          <span class="md3-filter-chip">Colorado</span><span class="md3-filter-chip">Connecticut</span><span class="md3-filter-chip">Delaware</span><span class="md3-filter-chip">Florida</span><span class="md3-filter-chip">Georgia</span>
-          <span class="md3-filter-chip">Hawaii</span><span class="md3-filter-chip">Idaho</span><span class="md3-filter-chip">Illinois</span><span class="md3-filter-chip">Indiana</span><span class="md3-filter-chip">Iowa</span>
-          <span class="md3-filter-chip">Kansas</span><span class="md3-filter-chip">Kentucky</span><span class="md3-filter-chip">Louisiana</span><span class="md3-filter-chip">Maine</span><span class="md3-filter-chip">Maryland</span>
-          <span class="md3-filter-chip">Massachusetts</span><span class="md3-filter-chip">Michigan</span><span class="md3-filter-chip">Minnesota</span><span class="md3-filter-chip">Mississippi</span><span class="md3-filter-chip">Missouri</span>
-          <span class="md3-filter-chip">Montana</span><span class="md3-filter-chip">Nebraska</span><span class="md3-filter-chip">Nevada</span><span class="md3-filter-chip">New Hampshire</span><span class="md3-filter-chip">New Jersey</span>
-        </div>
+<script>
+    const questions = [
+        // ТЕОРИЯ ГЕОМЕТРИИ (20 вопросов)
+        { q: "Как называется отношение прилежащего катета к гипотенузе?", a: ["Косинус", "Синус", "Тангенс", "Котангенс"], c: 0 },
+        { q: "Чему равна сумма квадратов синуса и косинуса одного и того же угла?", a: ["1", "0", "0.5", "$$\\pi$$"], c: 0 },
+        { q: "В прямоугольном треугольнике синус 30° равен:", a: ["$$1/2$$", "$$\\sqrt{3}/2$$", "1", "$$\\sqrt{2}/2$$"], c: 0 },
+        { q: "В прямоугольном треугольнике косинус 60° равен:", a: ["$$1/2$$", "$$0.5$$", "Верно оба варианта", "0"], c: 2 },
+        { q: "Синусом угла в 90° является число:", a: ["1", "0", "0.5", "-1"], c: 0 },
+        { q: "Косинусом угла в 0° является число:", a: ["1", "0", "0.5", "Не определен"], c: 0 },
+        { q: "Если синус угла растет (от 0 до 90°), то косинус этого угла...", a: ["Уменьшается", "Растет", "Не меняется", "Становится отрицательным"], c: 0 },
+        { q: "Чему равен косинус 90°?", a: ["0", "1", "$$1/2$$", "$$\\sqrt{2}/2$$"], c: 0 },
+        { q: "Как называется сторона, лежащая против прямого угла?", a: ["Гипотенуза", "Катет", "Медиана", "Биссектриса"], c: 0 },
+        { q: "Может ли синус острого угла быть равен 1.5?", a: ["Нет, всегда меньше или равен 1", "Да", "Только в тупоугольном треугольнике", "Только в равнобедренном"], c: 0 },
+        { q: "Тангенс угла $\\alpha$ — это отношение:", a: ["$$\\sin\\alpha / \\cos\\alpha$$", "$$\\cos\\alpha / \\sin\\alpha$$", "Катета к катету", "Варианты 1 и 3 верны"], c: 3 },
+        { q: "Чему равен $\\sin 45^\\circ$?", a: ["$$\\frac{\\sqrt{2}}{2}$$", "$$\\frac{1}{2}$$", "$$1$$", "$$\\frac{\\sqrt{3}}{2}$$"], c: 0 },
+        { q: "В треугольнике ABC с прямым углом C, $\\cos B$ — это:", a: ["BC / AB", "AC / AB", "AC / BC", "BC / AC"], c: 0 },
+        { q: "Справедливо ли тождество $\\tan \\alpha \\cdot \\cot \\alpha = 1$?", a: ["Да", "Нет", "Только для 45 градусов", "Никогда"], c: 0 },
+        { q: "Синус какого угла равен $$\\sqrt{3}/2$$?", a: ["60°", "30°", "45°", "0°"], c: 0 },
+        { q: "Если $\\sin \\alpha = 0.6$ и угол острый, то $\\cos \\alpha$ равен:", a: ["0.8", "0.4", "1", "0.6"], c: 0 },
+        { q: "Как называется катет, образующий угол вместе с гипотенузой?", a: ["Прилежащий", "Противолежащий", "Гипотенуза", "Высота"], c: 0 },
+        { q: "Косинус 45° равен:", a: ["$$\\frac{\\sqrt{2}}{2}$$", "$$\\frac{\\sqrt{3}}{2}$$", "$$0.5$$", "$$1$$"], c: 0 },
+        { q: "В треугольнике катет равен 3, гипотенуза 5. Чему равен синус противолежащего угла?", a: ["0.6", "0.8", "0.75", "1"], c: 0 },
+        { q: "Зависит ли значение синуса от размеров треугольника (при равных углах)?", a: ["Нет", "Да", "Зависит только от гипотенузы", "Зависит только от площади"], c: 0 },
 
-        <div class="chip-list" id="city-list-ru" style="display: none;">
-          <!-- 20+ городов РФ -->
-          <span class="md3-filter-chip">Moscow</span><span class="md3-filter-chip">Saint Petersburg</span><span class="md3-filter-chip">Khanty-Mansiysk</span><span class="md3-filter-chip">Perm</span><span class="md3-filter-chip">Saratov</span>
-          <span class="md3-filter-chip">Kirov</span><span class="md3-filter-chip">Yekaterinburg</span><span class="md3-filter-chip">Novosibirsk</span><span class="md3-filter-chip">Kazan</span><span class="md3-filter-chip">Nizhny Novgorod</span>
-          <span class="md3-filter-chip">Chelyabinsk</span><span class="md3-filter-chip">Omsk</span><span class="md3-filter-chip">Samara</span><span class="md3-filter-chip">Rostov-on-Don</span><span class="md3-filter-chip">Ufa</span>
-          <span class="md3-filter-chip">Krasnoyarsk</span><span class="md3-filter-chip">Voronezh</span><span class="md3-filter-chip">Volgograd</span><span class="md3-filter-chip">Krasnodar</span><span class="md3-filter-chip">Saratov</span>
-          <span class="md3-filter-chip">Tyumen</span><span class="md3-filter-chip">Tolyatti</span><span class="md3-filter-chip">Izhevsk</span><span class="md3-filter-chip">Barnaul</span><span class="md3-filter-chip">Ulyanovsk</span>
-        </div>
+        // ПРАКТИКА АЛГЕБРА (20 вопросов)
+        { q: "Найдите дискриминант уравнения $$x^2 - 6x + 5 = 0$$", a: ["16", "4", "25", "36"], c: 0 },
+        { q: "Решите уравнение $$x^2 - 9 = 0$$", a: ["$$3; -3$$", "3", "0", "9"], c: 0 },
+        { q: "Сколько корней у уравнения $$x^2 + 2x + 5 = 0$$?", a: ["Нет корней", "1 корень", "2 корня", "3 корня"], c: 0 },
+        { q: "Найдите дискриминант $$2x^2 + 5x - 3 = 0$$", a: ["49", "25", "1", "13"], c: 0 },
+        { q: "Корень уравнения $$x^2 - 10x + 25 = 0$$ это:", a: ["5", "-5", "0", "25"], c: 0 },
+        { q: "В уравнении $$x^2 - 5x = 0$$ корни равны:", a: ["0 и 5", "5", "0 и -5", "1 и 5"], c: 0 },
+        { q: "Найдите $D$ для $$3x^2 - 4x + 1 = 0$$", a: ["4", "16", "1", "0"], c: 0 },
+        { q: "Корни уравнения $$x^2 - 7x + 10 = 0$$:", a: ["2 и 5", "-2 и -5", "1 и 10", "3 и 4"], c: 0 },
+        { q: "Какое уравнение не имеет корней?", a: ["$$x^2 + 1 = 0$$", "$$x^2 - 1 = 0$$", "$$x^2 = 0$$", "$$x^2 + x = 0$$"], c: 0 },
+        { q: "Дискриминант уравнения $$x^2 - 2x + 1 = 0$$ равен:", a: ["0", "4", "2", "-4"], c: 0 },
+        { q: "Решите уравнение $$2x^2 = 18$$", a: ["3; -3", "9", "3", "18"], c: 0 },
+        { q: "Найдите сумму корней уравнения $$x^2 - 5x + 6 = 0$$ (по Виету):", a: ["5", "6", "-5", "1"], c: 0 },
+        { q: "Найдите произведение корней $$x^2 - 8x + 12 = 0$$:", a: ["12", "8", "-12", "1"], c: 0 },
+        { q: "Решите $$x^2 + 4x = 0$$", a: ["0; -4", "0; 4", "4", "-4"], c: 0 },
+        { q: "Уравнение $$ax^2 + c = 0$$ при $$a=1, c=4$$:", a: ["Не имеет корней", "2; -2", "0", "4"], c: 0 },
+        { q: "Дискриминант $$x^2 - 4x - 5 = 0$$:", a: ["36", "16", "4", "20"], c: 0 },
+        { q: "Найдите корни $$x^2 - x - 6 = 0$$", a: ["3; -2", "-3; 2", "1; 6", "-1; -6"], c: 0 },
+        { q: "Если $$D = 121$$, то $$\\sqrt{D}$$ равен:", a: ["11", "12", "21", "1.1"], c: 0 },
+        { q: "Уравнение $$5x^2 = 0$$ имеет корень:", a: ["0", "5", "1", "Нет корней"], c: 0 },
+        { q: "Найдите корень $$x^2 + 12x + 36 = 0$$", a: ["-6", "6", "0", "36"], c: 0 }
+    ];
 
-        <button id="btn-region-next" class="md3-button-filled mt-16">Continue</button>
-      </div>
-    </div>
+    let currentQ = 0;
+    let score = 0;
+    let timer;
 
-    <!-- Шаг 4: пин-код (без hide, стильная клавиатура) -->
-    <div id="step-pin" class="step">
-      <div class="md3-topbar">
-        <span class="material-symbols-outlined" id="back-to-region">arrow_back</span>
-      </div>
-      <div class="flex-col" style="flex:1;">
-        <span class="material-symbols-outlined" style="font-size: 40px;">pin</span>
-        <div style="font-size:26px; font-weight:400; line-height:1.3;">Now, create a four-digit pin code that will be used to log in to the system.</div>
+    function startQuiz() {
+        document.getElementById('start-screen').classList.add('hidden');
+        document.getElementById('quiz-screen').classList.remove('hidden');
+        startTimer(90 * 60);
+        showQuestion();
+    }
 
-        <div class="pin-display">
-          <div class="pin-circles" id="pin-circles">
-            <span class="pin-circle"></span><span class="pin-circle"></span><span class="pin-circle"></span><span class="pin-circle"></span>
-          </div>
-          <div class="pin-keyboard" id="pin-keyboard"></div>
-        </div>
+    function showQuestion() {
+        const q = questions[currentQ];
+        document.getElementById('progress').innerText = `Вопрос ${currentQ + 1} из ${questions.length}`;
+        document.getElementById('question-text').innerHTML = q.q;
+        document.getElementById('feedback-text').innerText = "";
+        
+        const container = document.getElementById('options-container');
+        container.innerHTML = "";
+        
+        q.a.forEach((option, index) => {
+            const btn = document.createElement('button');
+            btn.className = "option-btn";
+            btn.innerHTML = option;
+            btn.onclick = () => selectOption(index, btn);
+            container.appendChild(btn);
+        });
 
-        <button id="btn-pin-next" class="md3-button-filled">Continue</button>
-      </div>
-    </div>
-
-    <!-- Шаг 5: ID, SID, логин, пароль -->
-    <div id="step-login" class="step">
-      <div class="md3-topbar">
-        <span class="material-symbols-outlined" id="back-to-pin">arrow_back</span>
-      </div>
-      <div style="font-size:26px; font-weight:400; margin-bottom:16px;">Enter the data provided by your supervisor.</div>
-      <div class="flex-col">
-        <div class="text-field-outlined"><label>ID</label><input type="text" placeholder="e.g., 100234" id="user-id"></div>
-        <div class="text-field-outlined"><label>SID</label><input type="text" placeholder="session id" id="user-sid"></div>
-        <div class="text-field-outlined"><label>Login</label><input type="text" placeholder="your login" id="user-login"></div>
-        <div class="text-field-outlined"><label>Password</label><input type="password" placeholder="········" id="user-pass"></div>
-        <button id="btn-login" class="md3-button-filled mt-16">Log in</button>
-      </div>
-    </div>
-
-    <!-- финальный экран -->
-    <div id="step-demo-done" class="step">
-      <div class="md3-topbar"><span class="material-symbols-outlined" id="back-to-login">arrow_back</span></div>
-      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; flex:1; gap:20px;">
-        <span class="material-symbols-outlined" style="font-size:64px; color:#006874;">check_circle</span>
-        <div style="font-size:24px;">You're logged in</div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    (function() {
-      // Шаги
-      const steps = {
-        welcome: document.getElementById('step-welcome'),
-        stories: document.getElementById('step-stories'),
-        region: document.getElementById('step-region'),
-        pin: document.getElementById('step-pin'),
-        login: document.getElementById('step-login'),
-        done: document.getElementById('step-demo-done')
-      };
-
-      function showStep(stepName) {
-        Object.values(steps).forEach(s => s.classList.remove('active'));
-        steps[stepName].classList.add('active');
-      }
-
-      // Навигация назад
-      document.getElementById('back-to-welcome').addEventListener('click', ()=> showStep('welcome'));
-      document.getElementById('back-to-stories').addEventListener('click', ()=> showStep('stories'));
-      document.getElementById('back-to-region').addEventListener('click', ()=> showStep('region'));
-      document.getElementById('back-to-pin').addEventListener('click', ()=> showStep('pin'));
-      document.getElementById('back-to-login').addEventListener('click', ()=> showStep('login'));
-
-      // Конфиг диалог
-      const configDialog = document.getElementById('config-dialog');
-      const configError = document.getElementById('config-error');
-      const configContinue = document.getElementById('config-continue');
-      
-      document.getElementById('btn-start').addEventListener('click', ()=> {
-        configDialog.style.display = 'flex';
-      });
-
-      document.getElementById('config-skip').addEventListener('click', ()=> {
-        configDialog.style.display = 'none';
-        showStep('stories');
-      });
-
-      // Рабочий файлпикер
-      document.getElementById('config-upload').addEventListener('click', ()=> {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = '.json,.cfg,.txt,.xml';
-        input.onchange = (e) => {
-          const file = e.target.files[0];
-          if (file) {
-            // Имитация проверки формата
-            setTimeout(() => {
-              configError.style.display = 'block';
-              configContinue.style.display = 'block';
-            }, 500);
-          }
-        };
-        input.click();
-      });
-
-      configContinue.addEventListener('click', ()=> {
-        configDialog.style.display = 'none';
-        configError.style.display = 'none';
-        configContinue.style.display = 'none';
-        showStep('stories');
-      });
-
-      // Истории
-      const stories = [
-        { icon: 'contacts', title: 'Smart CRM', desc: 'Manage your employee count and salaries across multiple locations at once - quickly and conveniently with syncing to your devices.' },
-        { icon: 'monitoring', title: 'Advanced Reporting', desc: 'Real-time reports, customizable dashboards, insights.' },
-        { icon: 'construction', title: 'Snap-ins & tools', desc: 'Integrate printers, scales, and custom hardware seamlessly.' }
-      ];
-      let storyIndex = 0;
-      const storyIcon = document.getElementById('story-icon');
-      const storyTitle = document.getElementById('story-title');
-      const storyDesc = document.getElementById('story-desc');
-      const dots = document.querySelectorAll('.story-dot');
-
-      function updateStoryUI() {
-        storyIcon.innerText = stories[storyIndex].icon;
-        storyTitle.innerText = stories[storyIndex].title;
-        storyDesc.innerText = stories[storyIndex].desc;
-        dots.forEach((dot, i) => dot.classList.toggle('active', i === storyIndex));
-      }
-      document.getElementById('story-next').addEventListener('click', ()=> {
-        if (storyIndex < stories.length-1) { 
-          storyIndex++; 
-          updateStoryUI();
-        } else { 
-          showStep('region'); 
+        if (window.MathJax) {
+            MathJax.typesetPromise();
         }
-      });
-      document.getElementById('story-prev').addEventListener('click', ()=> {
-        if (storyIndex > 0) { 
-          storyIndex--; 
-          updateStoryUI(); 
-        }
-      });
+    }
 
-      // Регионы
-      const countryChips = document.querySelectorAll('[data-country]');
-      const stateListUs = document.getElementById('state-list-us');
-      const cityListRu = document.getElementById('city-list-ru');
-      const stateTitle = document.getElementById('state-title');
+    function selectOption(index, btn) {
+        const correct = questions[currentQ].c;
+        const feedback = document.getElementById('feedback-text');
+        const buttons = document.querySelectorAll('.option-btn');
 
-      function setCountryUI(country) {
-        if (country === 'us') {
-          stateListUs.style.display = 'flex';
-          cityListRu.style.display = 'none';
-          stateTitle.innerText = 'Select the state supported by NewPOS';
+        buttons.forEach(b => b.disabled = true);
+
+        if (index === correct) {
+            score++;
+            const positive = ["Супер!", "Ого!", "Молодец!"];
+            feedback.innerText = positive[Math.floor(Math.random() * positive.length)];
+            feedback.style.color = "var(--md-sys-color-success)";
+            btn.style.borderColor = "var(--md-sys-color-success)";
+            btn.style.background = "#e8f5e9";
         } else {
-          stateListUs.style.display = 'none';
-          cityListRu.style.display = 'flex';
-          stateTitle.innerText = 'Choose the city';
+            feedback.innerText = "Ой...";
+            feedback.style.color = "var(--md-sys-color-error)";
+            btn.style.borderColor = "var(--md-sys-color-error)";
+            btn.style.background = "#ffebee";
         }
-        document.querySelectorAll('[data-country]').forEach(chip => chip.classList.remove('selected'));
-        document.querySelector(`[data-country="${country}"]`).classList.add('selected');
-      }
 
-      countryChips.forEach(chip => chip.addEventListener('click', (e) => setCountryUI(e.target.dataset.country)));
-      
-      document.querySelectorAll('#state-list-us .md3-filter-chip, #city-list-ru .md3-filter-chip').forEach(chip => {
-        chip.addEventListener('click', (e) => {
-          e.target.closest('.chip-list').querySelectorAll('.md3-filter-chip').forEach(c => c.classList.remove('selected'));
-          e.target.classList.add('selected');
-        });
-      });
-
-      document.getElementById('btn-region-next').addEventListener('click', ()=> showStep('pin'));
-
-      // PIN-клавиатура (без hide)
-      const pinCircles = document.querySelectorAll('.pin-circle');
-      let pinValue = ['', '', '', ''];
-      const keyboardContainer = document.getElementById('pin-keyboard');
-      const keys = ['1','2','3','4','5','6','7','8','9','0', 'backspace'];
-      keyboardContainer.innerHTML = keys.map(key => {
-        if (key === 'backspace') return `<div class="pin-key special" data-key="backspace"><span class="material-symbols-outlined">backspace</span></div>`;
-        return `<div class="pin-key" data-key="${key}">${key}</div>`;
-      }).join('');
-
-      function updatePinCircles() {
-        pinCircles.forEach((circle, idx) => {
-          circle.classList.toggle('filled', pinValue[idx] !== '');
-        });
-      }
-
-      document.querySelectorAll('.pin-key').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const key = btn.dataset.key;
-          if (key === 'backspace') {
-            for (let i = 3; i >= 0; i--) {
-              if (pinValue[i] !== '') {
-                pinValue[i] = '';
-                break;
-              }
+        setTimeout(() => {
+            currentQ++;
+            if (currentQ < questions.length) {
+                showQuestion();
+            } else {
+                finishQuiz();
             }
-          } else if (/^\d$/.test(key)) {
-            for (let i = 0; i < 4; i++) {
-              if (pinValue[i] === '') {
-                pinValue[i] = key;
-                break;
-              }
+        }, 1200);
+    }
+
+    function startTimer(seconds) {
+        let time = seconds;
+        const display = document.getElementById('timer-display');
+        timer = setInterval(() => {
+            let m = Math.floor(time / 60);
+            let s = time % 60;
+            display.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+            if (time <= 0) {
+                clearInterval(timer);
+                finishQuiz();
             }
-          }
-          updatePinCircles();
-        });
-      });
+            time--;
+        }, 1000);
+    }
 
-      document.getElementById('btn-pin-next').addEventListener('click', ()=> {
-        if (pinValue.every(v => v !== '')) {
-          showStep('login');
-        } else {
-          alert('Please enter 4 digits');
-        }
-      });
+    function finishQuiz() {
+        clearInterval(timer);
+        document.getElementById('quiz-screen').classList.add('hidden');
+        document.getElementById('end-screen').classList.remove('hidden');
+        document.getElementById('final-score').innerText = `Твой результат: ${score} из ${questions.length}`;
+    }
+</script>
 
-      document.getElementById('btn-login').addEventListener('click', ()=> showStep('done'));
-
-      // Обнуление PIN при входе
-      const pinStep = steps.pin;
-      const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mut) => {
-          if (mut.target.classList.contains('active') && mut.target.id === 'step-pin') {
-            pinValue = ['', '', '', ''];
-            updatePinCircles();
-          }
-        });
-      });
-      observer.observe(pinStep, { attributes: true, attributeFilter: ['class'] });
-
-      setCountryUI('us');
-      updateStoryUI();
-    })();
-  </script>
 </body>
 </html>
