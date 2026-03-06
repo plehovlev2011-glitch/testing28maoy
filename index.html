@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Контрольная работа: Плехов Лев</title>
+    <title>Система контроля знаний: ЛинТех28</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
@@ -14,9 +15,11 @@
             --md-sys-color-primary: #6750A4;
             --md-sys-color-on-primary: #FFFFFF;
             --md-sys-color-surface: #FEF7FF;
+            --md-sys-color-surface-variant: #E7E0EC;
             --md-sys-color-outline: #79747E;
             --md-sys-color-error: #B3261E;
             --md-sys-color-success: #2E7D32;
+            --md-sys-color-secondary: #625B71;
         }
 
         body {
@@ -27,161 +30,219 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            color: #1C1B1F;
         }
 
         .card {
             background: var(--md-sys-color-surface);
             width: 90%;
-            max-width: 500px;
+            max-width: 550px;
             padding: 32px;
             border-radius: 28px;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+            position: relative;
         }
 
         .timer-badge {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
             background: #EADDFF;
             color: #21005D;
-            padding: 6px 16px;
+            padding: 8px 16px;
             border-radius: 100px;
             font-weight: 500;
             margin-bottom: 16px;
+            gap: 8px;
         }
 
-        h1 { font-size: 24px; color: #1C1B1F; margin-bottom: 8px; }
-        h2 { font-size: 18px; color: #49454F; font-weight: 400; margin-bottom: 24px; }
+        h1 { font-size: 24px; margin: 0 0 8px 0; text-align: center; }
+        .subtitle { font-size: 16px; color: var(--md-sys-color-secondary); text-align: center; margin-bottom: 24px; }
 
-        .btn-main {
+        .instruction-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+            text-align: left;
+            padding: 12px;
+            background: var(--md-sys-color-surface-variant);
+            border-radius: 16px;
+        }
+
+        .instruction-item i { color: var(--md-sys-color-primary); }
+
+        .btn-group { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+
+        .btn-fill {
             background: var(--md-sys-color-primary);
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 14px 24px;
             border-radius: 100px;
             font-size: 16px;
+            font-weight: 500;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        .btn-main:hover { box-shadow: 0 2px 8px rgba(103, 80, 164, 0.3); }
+        .btn-report {
+            background: transparent;
+            color: var(--md-sys-color-error);
+            border: 1px solid var(--md-sys-color-outline);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
 
         .option-btn {
             display: block;
             width: 100%;
-            margin: 12px 0;
+            margin: 10px 0;
             padding: 16px;
             text-align: left;
             border: 1px solid var(--md-sys-color-outline);
             border-radius: 12px;
-            background: transparent;
+            background: white;
             font-size: 16px;
             cursor: pointer;
-            transition: 0.2s;
         }
 
-        .option-btn:hover:not(:disabled) { background: #f0edf8; }
-
-        .feedback {
-            margin-top: 20px;
-            font-weight: 700;
-            font-size: 20px;
-            min-height: 30px;
-        }
-
+        .feedback { font-size: 20px; font-weight: bold; margin-top: 15px; text-align: center; }
         .hidden { display: none; }
-        
-        #progress {
-            font-size: 14px;
-            color: var(--md-sys-color-outline);
-            margin-bottom: 10px;
-        }
+        .score-chip { background: #d0e4ff; padding: 4px 12px; border-radius: 8px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="card" id="start-screen">
-    <div class="timer-badge">90 минут</div>
+<div class="card" id="screen-1">
     <h1>Плехов Лев Александрович</h1>
-    <h2>МАОУ ЛИнТех28 г.Киров</h2>
-    <p>Домашняя работа: Синус/Косинус и уравнения</p>
-    <button class="btn-main" onclick="startQuiz()">Начать тест</button>
+    <p class="subtitle">МАОУ ЛИнТех28 г.Киров</p>
+    <div class="btn-group">
+        <button class="btn-fill" onclick="showScreen(2)">
+            Открыть инструкции <i class="material-icons">arrow_forward</i>
+        </button>
+    </div>
 </div>
 
-<div class="card hidden" id="quiz-screen">
-    <div id="timer-display" class="timer-badge">90:00</div>
-    <div id="progress">Вопрос 1 из 40</div>
-    <div id="question-text" style="font-size: 20px; margin-bottom: 20px;"></div>
+<div class="card hidden" id="screen-2">
+    <h1>Инструкция</h1>
+    <div style="margin: 20px 0;">
+        <div class="instruction-item">
+            <i class="material-icons">event_note</i>
+            <span><b>Важно:</b> 13 марта состоится обобщающая контрольная работа. Данный тест — подготовка к ней.</span>
+        </div>
+        <div class="instruction-item">
+            <i class="material-icons">history</i>
+            <span><b>Срок:</b> Выполнить работу необходимо строго <b>до 9 марта</b>.</span>
+        </div>
+        <div class="instruction-item">
+            <i class="material-icons">edit_note</i>
+            <span><b>Формат:</b> Решать на листе не нужно. Просто выбирай верный ответ в интерфейсе.</span>
+        </div>
+        <div class="instruction-item">
+            <i class="material-icons">timer</i>
+            <span><b>Таймер:</b> На всю работу отведено <b>89 минут</b>.</span>
+        </div>
+        <div class="instruction-item">
+            <i class="material-icons">grade</i>
+            <span>Твой текущий средний балл: <span class="score-chip">3.37</span></span>
+        </div>
+    </div>
+    <button class="btn-fill" onclick="startQuiz()">Приступить к работе</button>
+</div>
+
+<div class="card hidden" id="screen-3">
+    <div class="timer-badge">
+        <i class="material-icons" style="font-size: 18px;">timer</i>
+        <span id="timer-display">89:00</span>
+    </div>
+    <div id="progress" style="font-size: 12px; color: gray; margin-bottom: 8px;"></div>
+    <div id="question-text" style="font-size: 18px; font-weight: 500; margin-bottom: 20px; text-align: left;"></div>
     <div id="options-container"></div>
     <div id="feedback-text" class="feedback"></div>
+    
+    <button class="btn-report" onclick="fakeReport()">
+        <i class="material-icons" style="font-size: 14px; vertical-align: middle;">report_problem</i> Нет верного ответа?
+    </button>
 </div>
 
-<div class="card hidden" id="end-screen">
-    <h1>Работа завершена!</h1>
+<div class="card hidden" id="screen-4">
+    <i class="material-icons" style="font-size: 64px; color: var(--md-sys-color-primary);">check_circle</i>
+    <h1>Готово!</h1>
     <p id="final-score"></p>
-    <button class="btn-main" onclick="location.reload()">На главную</button>
+    <button class="btn-fill" style="width: 100%" onclick="location.reload()">Вернуться</button>
 </div>
 
 <script>
     const questions = [
-        // ТЕОРИЯ ГЕОМЕТРИИ (20 вопросов)
-        { q: "Как называется отношение прилежащего катета к гипотенузе?", a: ["Косинус", "Синус", "Тангенс", "Котангенс"], c: 0 },
-        { q: "Чему равна сумма квадратов синуса и косинуса одного и того же угла?", a: ["1", "0", "0.5", "$$\\pi$$"], c: 0 },
-        { q: "В прямоугольном треугольнике синус 30° равен:", a: ["$$1/2$$", "$$\\sqrt{3}/2$$", "1", "$$\\sqrt{2}/2$$"], c: 0 },
-        { q: "В прямоугольном треугольнике косинус 60° равен:", a: ["$$1/2$$", "$$0.5$$", "Верно оба варианта", "0"], c: 2 },
-        { q: "Синусом угла в 90° является число:", a: ["1", "0", "0.5", "-1"], c: 0 },
-        { q: "Косинусом угла в 0° является число:", a: ["1", "0", "0.5", "Не определен"], c: 0 },
-        { q: "Если синус угла растет (от 0 до 90°), то косинус этого угла...", a: ["Уменьшается", "Растет", "Не меняется", "Становится отрицательным"], c: 0 },
-        { q: "Чему равен косинус 90°?", a: ["0", "1", "$$1/2$$", "$$\\sqrt{2}/2$$"], c: 0 },
-        { q: "Как называется сторона, лежащая против прямого угла?", a: ["Гипотенуза", "Катет", "Медиана", "Биссектриса"], c: 0 },
-        { q: "Может ли синус острого угла быть равен 1.5?", a: ["Нет, всегда меньше или равен 1", "Да", "Только в тупоугольном треугольнике", "Только в равнобедренном"], c: 0 },
-        { q: "Тангенс угла $\\alpha$ — это отношение:", a: ["$$\\sin\\alpha / \\cos\\alpha$$", "$$\\cos\\alpha / \\sin\\alpha$$", "Катета к катету", "Варианты 1 и 3 верны"], c: 3 },
-        { q: "Чему равен $\\sin 45^\\circ$?", a: ["$$\\frac{\\sqrt{2}}{2}$$", "$$\\frac{1}{2}$$", "$$1$$", "$$\\frac{\\sqrt{3}}{2}$$"], c: 0 },
-        { q: "В треугольнике ABC с прямым углом C, $\\cos B$ — это:", a: ["BC / AB", "AC / AB", "AC / BC", "BC / AC"], c: 0 },
-        { q: "Справедливо ли тождество $\\tan \\alpha \\cdot \\cot \\alpha = 1$?", a: ["Да", "Нет", "Только для 45 градусов", "Никогда"], c: 0 },
-        { q: "Синус какого угла равен $$\\sqrt{3}/2$$?", a: ["60°", "30°", "45°", "0°"], c: 0 },
-        { q: "Если $\\sin \\alpha = 0.6$ и угол острый, то $\\cos \\alpha$ равен:", a: ["0.8", "0.4", "1", "0.6"], c: 0 },
-        { q: "Как называется катет, образующий угол вместе с гипотенузой?", a: ["Прилежащий", "Противолежащий", "Гипотенуза", "Высота"], c: 0 },
-        { q: "Косинус 45° равен:", a: ["$$\\frac{\\sqrt{2}}{2}$$", "$$\\frac{\\sqrt{3}}{2}$$", "$$0.5$$", "$$1$$"], c: 0 },
-        { q: "В треугольнике катет равен 3, гипотенуза 5. Чему равен синус противолежащего угла?", a: ["0.6", "0.8", "0.75", "1"], c: 0 },
-        { q: "Зависит ли значение синуса от размеров треугольника (при равных углах)?", a: ["Нет", "Да", "Зависит только от гипотенузы", "Зависит только от площади"], c: 0 },
+        // ТЕОРИЯ (20 ВОПРОСОВ)
+        { q: "Что такое косинус острого угла?", a: ["Прилежащий / Гипотенуза", "Противолежащий / Гипотенуза", "Противолежащий / Прилежащий", "Сумма катетов"], c: 0 },
+        { q: "Основное тригонометрическое тождество выглядит так:", a: ["$$\\sin^2 \\alpha + \\cos^2 \\alpha = 1$$", "$$\\sin \\alpha + \\cos \\alpha = 1$$", "$$\\sin^2 \\alpha - \\cos^2 \\alpha = 1$$", "$$a^2 + b^2 = c^2$$"], c: 0 },
+        { q: "Чему равен $\\sin 30^\\circ$?", a: ["0.5", "$$\\sqrt{3}/2$$", "1", "$$\\sqrt{2}/2$$"], c: 0 },
+        { q: "Чему равен $\\cos 0^\\circ$?", a: ["1", "0", "0.5", "Не определен"], c: 0 },
+        { q: "Если $\\sin \\alpha = 1$, то угол $\\alpha$ равен:", a: ["90°", "0°", "180°", "45°"], c: 0 },
+        { q: "Тангенс — это отношение...", a: ["Синуса к косинусу", "Косинуса к синусу", "Катета к гипотенузе", "Гипотенузы к катету"], c: 0 },
+        { q: "Косинус 60° совпадает со значением:", a: ["Синуса 30°", "Синуса 60°", "Косинуса 30°", "Тангенса 45°"], c: 0 },
+        { q: "В прямоугольном треугольнике гипотенуза равна 10, прилежащий катет 8. Чему равен косинус угла?", a: ["0.8", "0.6", "1.25", "8"], c: 0 },
+        { q: "Может ли косинус быть равен 1.1?", a: ["Нет, максимум 1", "Да", "Только в геометрии Лобачевского", "Только для тупых углов"], c: 0 },
+        { q: "Синус 45° равен:", a: ["$$\\frac{\\sqrt{2}}{2}$$", "$$\\frac{1}{2}$$", "$$\\frac{\\sqrt{3}}{2}$$", "1"], c: 0 },
+        { q: "Если угол увеличивается от 0 до 90°, то его синус...", a: ["Увеличивается", "Уменьшается", "Не меняется", "Сначала растет, потом падает"], c: 0 },
+        { q: "В треугольнике ABC (угол C=90°), $\\sin A$ равен:", a: ["BC/AB", "AC/AB", "BC/AC", "AC/BC"], c: 0 },
+        { q: "Косинус 90° равен:", a: ["0", "1", "0.5", "-1"], c: 0 },
+        { q: "Тангенс 45° равен:", a: ["1", "0", "$$\\sqrt{3}$$", "$$\\sqrt{3}/3$$"], c: 0 },
+        { q: "Чему равна сумма острых углов прямоугольного треугольника?", a: ["90°", "180°", "60°", "45°"], c: 0 },
+        { q: "Если $\\cos \\alpha = 0$, то $\\alpha$ равен:", a: ["90°", "0°", "45°", "180°"], c: 0 },
+        { q: "Катет, лежащий против угла 30°, равен...", a: ["Половине гипотенузы", "Всей гипотенузе", "Квадрату гипотенузы", "Другому катету"], c: 0 },
+        { q: "Синус 0° равен:", a: ["0", "1", "0.5", "Не определен"], c: 0 },
+        { q: "Как найти косинус, зная синус?", a: ["$$\\sqrt{1 - \\sin^2 \\alpha}$$", "$$1 - \\sin \\alpha$$", "$$\\sin \\alpha / \\tan \\alpha$$", "Никак"], c: 0 },
+        { q: "В треугольнике с катетами 3 и 4 синус меньшего угла равен:", a: ["0.6", "0.8", "0.75", "1"], c: 0 },
 
-        // ПРАКТИКА АЛГЕБРА (20 вопросов)
-        { q: "Найдите дискриминант уравнения $$x^2 - 6x + 5 = 0$$", a: ["16", "4", "25", "36"], c: 0 },
-        { q: "Решите уравнение $$x^2 - 9 = 0$$", a: ["$$3; -3$$", "3", "0", "9"], c: 0 },
-        { q: "Сколько корней у уравнения $$x^2 + 2x + 5 = 0$$?", a: ["Нет корней", "1 корень", "2 корня", "3 корня"], c: 0 },
-        { q: "Найдите дискриминант $$2x^2 + 5x - 3 = 0$$", a: ["49", "25", "1", "13"], c: 0 },
-        { q: "Корень уравнения $$x^2 - 10x + 25 = 0$$ это:", a: ["5", "-5", "0", "25"], c: 0 },
-        { q: "В уравнении $$x^2 - 5x = 0$$ корни равны:", a: ["0 и 5", "5", "0 и -5", "1 и 5"], c: 0 },
-        { q: "Найдите $D$ для $$3x^2 - 4x + 1 = 0$$", a: ["4", "16", "1", "0"], c: 0 },
-        { q: "Корни уравнения $$x^2 - 7x + 10 = 0$$:", a: ["2 и 5", "-2 и -5", "1 и 10", "3 и 4"], c: 0 },
-        { q: "Какое уравнение не имеет корней?", a: ["$$x^2 + 1 = 0$$", "$$x^2 - 1 = 0$$", "$$x^2 = 0$$", "$$x^2 + x = 0$$"], c: 0 },
-        { q: "Дискриминант уравнения $$x^2 - 2x + 1 = 0$$ равен:", a: ["0", "4", "2", "-4"], c: 0 },
-        { q: "Решите уравнение $$2x^2 = 18$$", a: ["3; -3", "9", "3", "18"], c: 0 },
-        { q: "Найдите сумму корней уравнения $$x^2 - 5x + 6 = 0$$ (по Виету):", a: ["5", "6", "-5", "1"], c: 0 },
-        { q: "Найдите произведение корней $$x^2 - 8x + 12 = 0$$:", a: ["12", "8", "-12", "1"], c: 0 },
-        { q: "Решите $$x^2 + 4x = 0$$", a: ["0; -4", "0; 4", "4", "-4"], c: 0 },
-        { q: "Уравнение $$ax^2 + c = 0$$ при $$a=1, c=4$$:", a: ["Не имеет корней", "2; -2", "0", "4"], c: 0 },
-        { q: "Дискриминант $$x^2 - 4x - 5 = 0$$:", a: ["36", "16", "4", "20"], c: 0 },
-        { q: "Найдите корни $$x^2 - x - 6 = 0$$", a: ["3; -2", "-3; 2", "1; 6", "-1; -6"], c: 0 },
-        { q: "Если $$D = 121$$, то $$\\sqrt{D}$$ равен:", a: ["11", "12", "21", "1.1"], c: 0 },
-        { q: "Уравнение $$5x^2 = 0$$ имеет корень:", a: ["0", "5", "1", "Нет корней"], c: 0 },
-        { q: "Найдите корень $$x^2 + 12x + 36 = 0$$", a: ["-6", "6", "0", "36"], c: 0 }
+        // АЛГЕБРА (20 ВОПРОСОВ)
+        { q: "Дискриминант уравнения $$x^2 - 4x + 3 = 0$$ равен:", a: ["4", "16", "1", "0"], c: 0 },
+        { q: "Сколько корней имеет уравнение, если $$D = 0$$?", a: ["Один", "Два", "Нет корней", "Бесконечно"], c: 0 },
+        { q: "Формула корней квадратного уравнения:", a: ["$$\\frac{-b \\pm \\sqrt{D}}{2a}$$", "$$\\frac{b \\pm \\sqrt{D}}{2a}$$", "$$\\frac{-b \\pm D}{2a}$$", "$$b^2 - 4ac$$"], c: 0 },
+        { q: "Найдите корни $$x^2 - 5x + 6 = 0$$", a: ["2; 3", "-2; -3", "1; 6", "0; 5"], c: 0 },
+        { q: "Чему равно произведение корней уравнения $$x^2 - 7x + 10 = 0$$?", a: ["10", "7", "-10", "-7"], c: 0 },
+        { q: "Решите уравнение $$x^2 - 16 = 0$$", a: ["4; -4", "4", "16; -16", "Нет корней"], c: 0 },
+        { q: "Дискриминант $$2x^2 + 3x + 1 = 0$$ равен:", a: ["1", "9", "17", "7"], c: 0 },
+        { q: "Найдите сумму корней $$x^2 + 5x + 4 = 0$$", a: ["-5", "5", "4", "-4"], c: 0 },
+        { q: "Уравнение $$x^2 + 9 = 0$$ имеет корней:", a: ["0 (корней нет)", "1", "2", "3"], c: 0 },
+        { q: "Решите $$x^2 - x = 0$$", a: ["0; 1", "0", "1", "0; -1"], c: 0 },
+        { q: "Если $$D < 0$$, то квадратное уравнение...", a: ["Не имеет действительных корней", "Имеет 1 корень", "Имеет 2 корня", "Всегда равно 0"], c: 0 },
+        { q: "Найдите корень $$x^2 - 10x + 25 = 0$$", a: ["5", "-5", "10", "25"], c: 0 },
+        { q: "Коэффициент $$c$$ в уравнении $$3x^2 - 4x + 8 = 0$$ равен:", a: ["8", "3", "-4", "0"], c: 0 },
+        { q: "Чему равен $D$ для $$x^2 + 2x + 1 = 0$$?", a: ["0", "4", "2", "-4"], c: 0 },
+        { q: "Решите $$x^2 = 0.25$$", a: ["0.5; -0.5", "0.5", "0.05", "Нет корней"], c: 0 },
+        { q: "Укажите корни $$x^2 - 8x + 15 = 0$$", a: ["3; 5", "-3; -5", "2; 4", "1; 15"], c: 0 },
+        { q: "Уравнение $$5x^2 - 20 = 0$$ имеет корни:", a: ["2; -2", "4; -4", "2", "Нет корней"], c: 0 },
+        { q: "В уравнении $$ax^2 + bx + c = 0$$ первый коэффициент это:", a: ["a", "b", "c", "x"], c: 0 },
+        { q: "Найдите дискриминант $$x^2 - 2x - 8 = 0$$", a: ["36", "4", "32", "20"], c: 0 },
+        { q: "Корни уравнения $$x^2 + 3x = 0$$ это:", a: ["0; -3", "0; 3", "3; -3", "0"], c: 0 }
     ];
 
     let currentQ = 0;
     let score = 0;
     let timer;
 
+    function showScreen(num) {
+        document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+        document.getElementById(`screen-${num}`).classList.remove('hidden');
+    }
+
     function startQuiz() {
-        document.getElementById('start-screen').classList.add('hidden');
-        document.getElementById('quiz-screen').classList.remove('hidden');
-        startTimer(90 * 60);
+        showScreen(3);
+        startTimer(89 * 60);
         showQuestion();
     }
 
     function showQuestion() {
         const q = questions[currentQ];
-        document.getElementById('progress').innerText = `Вопрос ${currentQ + 1} из ${questions.length}`;
+        document.getElementById('progress').innerText = `ВОПРОС ${currentQ + 1} ИЗ ${questions.length}`;
         document.getElementById('question-text').innerHTML = q.q;
         document.getElementById('feedback-text').innerText = "";
         
@@ -196,62 +257,50 @@
             container.appendChild(btn);
         });
 
-        if (window.MathJax) {
-            MathJax.typesetPromise();
-        }
+        if (window.MathJax) MathJax.typesetPromise();
     }
 
     function selectOption(index, btn) {
         const correct = questions[currentQ].c;
         const feedback = document.getElementById('feedback-text');
-        const buttons = document.querySelectorAll('.option-btn');
-
-        buttons.forEach(b => b.disabled = true);
+        document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
 
         if (index === correct) {
             score++;
-            const positive = ["Супер!", "Ого!", "Молодец!"];
-            feedback.innerText = positive[Math.floor(Math.random() * positive.length)];
+            const ok = ["Супер!", "Ого!", "Молодец!"];
+            feedback.innerText = ok[Math.floor(Math.random()*ok.length)];
             feedback.style.color = "var(--md-sys-color-success)";
-            btn.style.borderColor = "var(--md-sys-color-success)";
             btn.style.background = "#e8f5e9";
         } else {
             feedback.innerText = "Ой...";
             feedback.style.color = "var(--md-sys-color-error)";
-            btn.style.borderColor = "var(--md-sys-color-error)";
             btn.style.background = "#ffebee";
         }
 
         setTimeout(() => {
             currentQ++;
-            if (currentQ < questions.length) {
-                showQuestion();
-            } else {
-                finishQuiz();
-            }
-        }, 1200);
+            if (currentQ < questions.length) showQuestion();
+            else finishQuiz();
+        }, 1000);
     }
 
-    function startTimer(seconds) {
-        let time = seconds;
-        const display = document.getElementById('timer-display');
+    function startTimer(sec) {
         timer = setInterval(() => {
-            let m = Math.floor(time / 60);
-            let s = time % 60;
-            display.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
-            if (time <= 0) {
-                clearInterval(timer);
-                finishQuiz();
-            }
-            time--;
+            let m = Math.floor(sec / 60);
+            let s = sec % 60;
+            document.getElementById('timer-display').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+            if (sec-- <= 0) { clearInterval(timer); finishQuiz(); }
         }, 1000);
     }
 
     function finishQuiz() {
         clearInterval(timer);
-        document.getElementById('quiz-screen').classList.add('hidden');
-        document.getElementById('end-screen').classList.remove('hidden');
-        document.getElementById('final-score').innerText = `Твой результат: ${score} из ${questions.length}`;
+        showScreen(4);
+        document.getElementById('final-score').innerText = `Твой результат: ${score} из ${questions.length}. Подготовка к 13 марта идет полным ходом!`;
+    }
+
+    function fakeReport() {
+        alert("Жалоба отправлена модератору. Мы проверим корректность условий данного вопроса. Спасибо за бдительность!");
     }
 </script>
 
