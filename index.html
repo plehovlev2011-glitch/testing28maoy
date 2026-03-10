@@ -3,297 +3,363 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Система «Лицей-Контроль» | МАОУ ЛИнТех28</title>
+    <title>Алгебра/Геометрия 8 | Домашняя работа</title>
     
+    <!-- Google Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- MathJax (LaTeX support) -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <style>
-        :root {
-            --md-sys-color-primary: #6750A4;
-            --md-sys-color-surface: #FEF7FF;
-            --md-sys-color-surface-variant: #E7E0EC;
-            --md-sys-color-outline: #79747E;
-            --md-sys-color-error: #B3261E;
-            --md-sys-color-success: #2E7D32;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f3f3f9;
-            margin: 0;
+            background: linear-gradient(145deg, #f5f7fa 0%, #e9ecf2 100%);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
+            padding: 16px;
         }
 
         .card {
-            background: var(--md-sys-color-surface);
-            width: 95%;
-            max-width: 600px;
-            padding: 32px;
-            border-radius: 28px;
-            box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
-            text-align: center;
-            transition: all 0.5s ease;
+            background: #ffffff;
+            width: 100%;
+            max-width: 720px;
+            padding: 32px 28px;
+            border-radius: 36px;
+            box-shadow: 0 20px 40px -10px rgba(0, 20, 30, 0.2), inset 0 0 0 1px rgba(255,255,255,0.6);
+            transition: opacity 0.3s ease;
         }
 
-        /* Анимация загрузки */
-        .loader {
-            width: 48px;
-            height: 48px;
-            border: 5px solid var(--md-sys-color-surface-variant);
-            border-bottom-color: var(--md-sys-color-primary);
-            border-radius: 50%;
-            display: inline-block;
-            animation: rotation 1s linear infinite;
+        .hidden {
+            display: none !important;
         }
 
-        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        h1 {
+            font-size: 2rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #1e3c5c, #2b5876);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
 
-        /* Панель ВКС */
-        .vcs-panel {
-            background: #202124;
-            color: white;
-            padding: 12px;
-            border-radius: 16px;
-            display: flex;
-            justify-content: space-between;
+        .chip {
+            background: #eef2f6;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            color: #1e2b3a;
+            display: inline-flex;
             align-items: center;
-            margin-bottom: 20px;
-            font-size: 13px;
+            gap: 8px;
         }
 
-        .user-status { display: flex; align-items: center; gap: 8px; }
-        .mic-off { color: #ea4335; font-size: 18px; }
-
-        .btn-fill {
-            background: var(--md-sys-color-primary);
+        .btn {
+            background: #1e3c5c;
             color: white;
             border: none;
-            padding: 16px 32px;
-            border-radius: 100px;
+            padding: 16px 28px;
+            border-radius: 60px;
             font-weight: 500;
-            cursor: pointer;
+            font-size: 1.1rem;
             width: 100%;
-            margin-top: 10px;
+            cursor: pointer;
+            box-shadow: 0 8px 16px -5px #1e3c5c80;
+            transition: 0.15s;
         }
+        .btn:hover { background: #143549; transform: scale(1.02); }
+        .btn:active { transform: scale(0.98); }
 
-        .option-btn {
-            display: block; width: 100%; margin: 12px 0; padding: 18px;
-            text-align: left; border: 1px solid var(--md-sys-color-outline);
-            border-radius: 16px; background: white; cursor: pointer; font-size: 16px;
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #1e3c5c;
+            color: #1e3c5c;
+            box-shadow: none;
         }
 
         .instruction-box {
-            text-align: left; background: #f0edf8; padding: 20px;
-            border-radius: 20px; margin: 15px 0;
+            background: #f0f4f9;
+            padding: 24px;
+            border-radius: 28px;
+            margin: 24px 0;
+            text-align: left;
         }
 
-        .hidden { display: none; }
-        .score-badge { background: #d0e4ff; padding: 2px 8px; border-radius: 6px; }
+        .option-btn {
+            width: 100%;
+            padding: 18px 20px;
+            margin: 10px 0;
+            text-align: left;
+            background: white;
+            border: 1.5px solid #cdd9e6;
+            border-radius: 24px;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .option-btn:hover { border-color: #1e3c5c; background: #f5f9ff; }
+        .option-btn:disabled { opacity: 0.5; cursor: default; }
+
+        #timer-box {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #c44536;
+            letter-spacing: 2px;
+        }
+
+        .iframe-container {
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+
+        iframe {
+            width: 100%;
+            height: 380px;
+            border: none;
+            background: white;
+        }
+
+        .warning-box {
+            background: #ffecba;
+            border-left: 8px solid #e6a700;
+            padding: 16px 20px;
+            border-radius: 18px;
+            font-weight: 500;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 24px;
+            color: #4f6f8f;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
 
+<!-- СТАРТОВЫЙ ЭКРАН -->
 <div class="card" id="scr-start">
-    <div style="color: var(--md-sys-color-primary); margin-bottom: 10px;">МАОУ ЛИнТех28 г.Киров</div>
-    <h1>Дистанционная контрольная работа</h1>
-    <h2 style="font-weight: 400; color: #49454F;">Ученик: Плехов Лев Александрович</h2>
-    <button class="btn-fill" onclick="toInstruction()">Начать контрольную работу</button>
+    <div style="margin-bottom: 20px;">
+        <span class="chip"><i class="material-icons" style="font-size: 18px;">person</i> Плехов Лев, 8Е</span>
+        <span class="chip" style="margin-left: 10px;"><i class="material-icons">event</i> до 11 марта</span>
+    </div>
+    <h1>📐 Алгебра + геометрия</h1>
+    <p style="color: #2e4059; margin: 10px 0 24px;">Дискриминант, синусы, косинусы — 25 заданий + тренировка</p>
+    <button class="btn" onclick="toInstruction()">→ Начать выполнение</button>
+    <div class="footer-note">МАОУ ЛИнТех28 • домашняя работа</div>
 </div>
 
+<!-- ЭКРАН ИНСТРУКЦИИ -->
 <div class="card hidden" id="scr-inst">
-    <h1 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-        <i class="material-icons">description</i> Инструкция КР
-    </h1>
+    <h2>📋 Порядок работы</h2>
     <div class="instruction-box">
-        <p><b>1. Цель:</b> Подготовка к обобщающей КР (13 марта).</p>
-        <p><b>2. Дедлайн системы:</b> До 9 марта.</p>
-        <p><b>3. Время:</b> 45 минут строго по таймеру.</p>
-        <p><b>4. Формат:</b> Ответы вносятся в систему, черновик не сдается.</p>
-        <p><b>5. Текущий балл:</b> <span class="score-badge">3.37</span></p>
+        <p>✔ 25 основных вопросов (алгебра/геометрия).</p>
+        <p>✔ После 25-го откроется страница с тренировочным тестом на sdamgia.</p>
+        <p>✔ <strong>Важно:</strong> встроенные решения открывать нельзя — работа аннулируется.</p>
+        <p>✔ Когда решите доп.задание, нажмите «Отправить» внизу.</p>
+        <p>✏ Черновик приветствуется, время не ограничено (кроме дедлайна 11.03).</p>
     </div>
-    <button class="btn-fill" onclick="toLoading()">Подключиться к сессии</button>
+    <button class="btn btn-outline" onclick="startTest()" style="margin-top: 10px;">✓ Приступаю к 25 вопросам</button>
 </div>
 
-<div class="card hidden" id="scr-load">
-    <span class="loader"></span>
-    <h2 id="load-text">Загрузка модулей удаленного подключения...</h2>
-    <p style="color: gray;" id="load-subtext">Шифрование канала SSL-256...</p>
-</div>
-
-<div class="card hidden" id="scr-wait">
-    <div style="background: #e8f0fe; padding: 20px; border-radius: 20px; border: 2px dashed #1a73e8;">
-        <i class="material-icons" style="font-size: 48px; color: #1a73e8;">group</i>
-        <h3>Подключено 27 учеников (8Е)</h3>
-        <p>Ожидание организатора...</p>
-        <p style="font-size: 14px; color: #5f6368;">
-            Контрольная работа начнется, когда учитель <b>Пикова Марина Владимировна</b> подключится.
-        </p>
-    </div>
-</div>
-
+<!-- ТЕСТ (25 вопросов) -->
 <div class="card hidden" id="scr-test">
-    <div class="vcs-panel">
-        <div class="user-status">
-            <i class="material-icons" style="color: #8ab4f8;">account_circle</i>
-            <span>Пикова М.В. (Организатор)</span>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <div id="timer-box">--:--</div>
+        <div style="background: #d4e1f0; padding: 8px 16px; border-radius: 30px;">
+            <span id="progress-text">1 / 25</span>
         </div>
-        <div>
-            <i class="material-icons mic-off">mic_off</i>
-            <i class="material-icons mic-off">videocam_off</i>
-            <span style="margin-left: 10px; opacity: 0.7;">+ 27 уч.</span>
-        </div>
-    </div>
-
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <div id="timer-box" style="color: var(--md-sys-color-error); font-weight: bold; font-size: 18px;">45:00</div>
-        <div id="progress-text" style="font-size: 12px; color: var(--md-sys-color-outline);"></div>
     </div>
     
-    <div id="q-text" style="font-size: 18px; text-align: left; margin-bottom: 20px; min-height: 60px;"></div>
+    <!-- Вопрос -->
+    <div id="q-text" style="font-size: 1.3rem; font-weight: 500; margin-bottom: 16px; min-height: 70px;"></div>
+    
+    <!-- Варианты -->
     <div id="options-box"></div>
-    <div id="fb" style="height: 30px; margin-top: 10px; font-weight: bold;"></div>
+    
+    <!-- Мгновенная обратная связь -->
+    <div id="fb" style="height: 32px; margin-top: 8px; font-weight: 500;"></div>
 
-    <button class="btn-report" onclick="alert('Жалоба на некорректный вопрос принята.')" style="background:none; border:none; color:gray; cursor:pointer; font-size: 12px; margin-top:15px;">
-       ⚠ Нет верного ответа? Пожаловаться.
-    </button>
+    <button class="btn-outline" style="border:none; background:transparent; color:#777; margin-top: 16px;" onclick="alert('Учитель получит уведомление (тестовый режим).')">⚠️ Сообщить о неточности</button>
 </div>
 
+<!-- ЭКРАН 26 ЗАДАНИЯ (IFRAME + ОТПРАВКА) -->
+<div class="card hidden" id="scr-iframe">
+    <h2 style="display: flex; gap: 10px;">🔗 Задание 26 · дополнительное</h2>
+    <div class="warning-box">
+        <i class="material-icons" style="color:#b65f00;">warning</i>
+        <span><strong>Открывать решения запрещено.</strong> При открытии работа аннулируется. Когда закончите, нажмите «Отправить».</span>
+    </div>
+    
+    <div class="iframe-container">
+        <iframe src="https://math8-vpr.sdamgia.ru/test?id=3558142&nt=True&pub=False" title="Тренировочный тест"></iframe>
+    </div>
+    
+    <button class="btn" id="submitFinalBtn" onclick="finalSubmit()">📤 Отправить работу целиком</button>
+    <p style="margin-top: 16px; color: #3f546b;">После отправки домашнее задание будет зафиксировано.</p>
+</div>
+
+<!-- ФИНАЛЬНЫЙ ЭКРАН -->
 <div class="card hidden" id="scr-end">
-    <i class="material-icons" style="font-size: 60px; color: var(--md-sys-color-success);">done_all</i>
-    <h1>Работа отправлена</h1>
-    <p id="final-res"></p>
-    <button class="btn-fill" onclick="location.reload()">Выйти из системы</button>
+    <i class="material-icons" style="font-size: 64px; color: #2e7d32;">check_circle</i>
+    <h2>Работа отправлена</h2>
+    <p id="final-res" style="font-size: 1.2rem; margin: 16px 0;">Молодец! Результаты сохранены.</p>
+    <button class="btn" onclick="location.reload()">На главную</button>
 </div>
 
 <script>
+    // 25 вопросов (алгебра: дискриминант, квадратные ур-я; геометрия: sin/cos)
     const questions = [
-        // АЛГЕБРА (20)
-        { q: "Дискриминант уравнения $$x^2 - 10x + 21 = 0$$ равен:", a: ["16", "4", "100", "84"], c: 0 },
-        { q: "Найдите корни уравнения $$x^2 - 12x + 36 = 0$$", a: ["6", "-6", "0", "6; -6"], c: 0 },
-        { q: "Сколько корней у уравнения $$2x^2 + x + 5 = 0$$?", a: ["0", "1", "2", "3"], c: 0 },
-        { q: "Произведение корней уравнения $$x^2 - 5x - 14 = 0$$ равно:", a: ["-14", "14", "5", "-5"], c: 0 },
-        { q: "Найдите дискриминант $$3x^2 - 2x - 1 = 0$$", a: ["16", "4", "12", "8"], c: 0 },
-        { q: "Решите неполное уравнение $$x^2 - 49 = 0$$", a: ["7; -7", "7", "49", "Нет корней"], c: 0 },
-        { q: "Сумма корней уравнения $$x^2 + 8x + 15 = 0$$ равна:", a: ["-8", "8", "15", "-15"], c: 0 },
-        { q: "Дискриминант какого уравнения равен 0?", a: ["$$x^2-4x+4=0$$", "$$x^2-4=0$$", "$$x^2+4x=0$$", "$$x^2+1=0$$"], c: 0 },
-        { q: "Решите уравнение $$x^2 + 5x = 0$$", a: ["0; -5", "0; 5", "5", "-5"], c: 0 },
-        { q: "Если $$D = 49$$, то $$\\sqrt{D}$$ равен:", a: ["7", "-7", "49", "24.5"], c: 0 },
-        { q: "Найдите корни $$x^2 - 3x - 4 = 0$$", a: ["4; -1", "-4; 1", "2; -2", "0; 4"], c: 0 },
-        { q: "Какое из уравнений не является квадратным?", a: ["$$2x + 5 = 0$$", "$$x^2 = 0$$", "$$3x^2 - x + 1 = 0$$", "$$x^2 - 4 = 0$$"], c: 0 },
-        { q: "Дискриминант $$x^2 + x + 1 = 0$$ равен:", a: ["-3", "1", "3", "0"], c: 0 },
-        { q: "Найдите произведение корней $$x^2 - 9x + 20 = 0$$", a: ["20", "9", "-20", "1"], c: 0 },
-        { q: "Коэффициент $$b$$ в уравнении $$x^2 - 7x + 1 = 0$$ равен:", a: ["-7", "7", "1", "0"], c: 0 },
-        { q: "Решите $$4x^2 = 100$$", a: ["5; -5", "25; -25", "10", "5"], c: 0 },
-        { q: "Укажите корни $$x^2 - 11x + 10 = 0$$", a: ["1; 10", "-1; -10", "2; 5", "0; 11"], c: 0 },
-        { q: "Найдите $D$ для $$x^2 - 6x + 8 = 0$$", a: ["4", "36", "32", "1"], c: 0 },
-        { q: "Уравнение $$x^2 + 16 = 0$$ имеет...", a: ["0 корней", "2 корня", "1 корень", "бесконечно"], c: 0 },
-        { q: "Найдите корень $$x^2 + 2x + 1 = 0$$", a: ["-1", "1", "0", "2"], c: 0 },
-
-        // ГЕОМЕТРИЯ (20)
-        { q: "Синус острого угла — это отношение:", a: ["Противолежащего к гипотенузе", "Прилежащего к гипотенузе", "Катета к катету", "Гипотенузы к катету"], c: 0 },
-        { q: "Чему равен $\\cos 60^\\circ$?", a: ["0.5", "$$\\sqrt{3}/2$$", "$$\\sqrt{2}/2$$", "1"], c: 0 },
-        { q: "Основное тождество: $\\sin^2 \\alpha + \\cos^2 \\alpha$ равно:", a: ["1", "0", "0.5", "$$D$$"], c: 0 },
-        { q: "Косинус — это отношение:", a: ["Прилежащего к гипотенузе", "Противолежащего к гипотенузе", "Противолежащего к прилежащему", "Сумма квадратов"], c: 0 },
-        { q: "Синус 90° равен:", a: ["1", "0", "0.5", "Не определен"], c: 0 },
-        { q: "Если $\\cos \\alpha = 0.8$, то $\\sin^2 \\alpha$ равен:", a: ["0.36", "0.6", "0.2", "1"], c: 0 },
-        { q: "Тангенс 45° равен:", a: ["1", "0", "$$\\sqrt{2}$$", "0.5"], c: 0 },
-        { q: "Косинус угла 0° равен:", a: ["1", "0", "-1", "0.5"], c: 0 },
-        { q: "В треугольнике с катетами 6 и 8 гипотенуза равна:", a: ["10", "14", "100", "7"], c: 0 },
-        { q: "Чему равен $\\sin 45^\\circ$?", a: ["$$\\sqrt{2}/2$$", "0.5", "1", "0"], c: 0 },
-        { q: "Синус 30° равен:", a: ["0.5", "$$\\sqrt{3}/2$$", "1", "$$\\sqrt{2}/2$$"], c: 0 },
-        { q: "Косинус 90° равен:", a: ["0", "1", "0.5", "-1"], c: 0 },
-        { q: "Как называется отношение $\\sin \\alpha / \\cos \\alpha$?", a: ["Тангенс", "Котангенс", "Синус", "Радиус"], c: 0 },
-        { q: "В прямоугольном треугольнике гипотенуза всегда...", a: ["Больше катета", "Меньше катета", "Равна катету", "Равна 1"], c: 0 },
-        { q: "Синус какого угла равен $$\\sqrt{3}/2$$?", a: ["60°", "30°", "45°", "90°"], c: 0 },
-        { q: "Косинус какого угла равен $$\\sqrt{2}/2$$?", a: ["45°", "30°", "60°", "0°"], c: 0 },
-        { q: "Может ли синус быть равен -0.5 для острого угла?", a: ["Нет", "Да", "Только в 8 классе", "Только если треугольник тупоугольный"], c: 0 },
-        { q: "Если $\\sin \\alpha = 0$, то угол $\\alpha$ равен:", a: ["0°", "90°", "45°", "180°"], c: 0 },
-        { q: "Чему равен $\\cos 30^\\circ$?", a: ["$$\\sqrt{3}/2$$", "0.5", "$$\\sqrt{2}/2$$", "1"], c: 0 },
-        { q: "Сумма острых углов прямоугольного треугольника:", a: ["90°", "180°", "45°", "60°"], c: 0 }
+        // Дискриминант / корни
+        { q: "Найдите дискриминант уравнения $$x^2 - 7x + 10 = 0$$.", a: ["9", "49", "7", "14"], c: 0 },
+        { q: "Сколько корней имеет уравнение $$3x^2 - 4x + 2 = 0$$?", a: ["0", "1", "2", "бесконечно много"], c: 0 },
+        { q: "Чему равна сумма корней $$x^2 + 5x - 6 = 0$$ ?", a: ["-5", "5", "-6", "6"], c: 0 },
+        { q: "Произведение корней уравнения $$x^2 - 3x - 18 = 0$$ равно:", a: ["-18", "18", "3", "-3"], c: 0 },
+        { q: "Решите уравнение $$x^2 - 9x = 0$$. Укажите больший корень.", a: ["9", "0", "-9", "3"], c: 0 },
+        { q: "Дискриминант $$x^2 + 6x + 9 = 0$$ равен:", a: ["0", "36", "9", "18"], c: 0 },
+        { q: "Найдите корни $$2x^2 - 8 = 0$$.", a: ["2; -2", "4; -4", "0; 2", "8; -8"], c: 0 },
+        { q: "Для уравнения $$x^2 - 5x + 4 = 0$$ сумма корней равна 5. Найдите произведение корней.", a: ["4", "5", "-4", "1"], c: 0 },
+        { q: "$$x^2 + 2x - 15 = 0$$. Чему равны корни?", a: ["3; -5", "-3; 5", "5; -3", "15; -1"], c: 0 },
+        { q: "Дискриминант $$x^2 - x - 12 = 0$$ равен:", a: ["49", "25", "1", "13"], c: 0 },
+        { q: "При каком значении k уравнение $$x^2 + kx + 9 = 0$$ имеет один корень? (подсказка: D=0)", a: ["±6", "6", "-6", "3"], c: 0 },
+        { q: "Найдите отрицательный корень $$x^2 - 2x - 3 = 0$$.", a: ["-1", "-3", "1", "3"], c: 0 },
+        { q: "Уравнение $$4x^2 + 4x + 1 = 0$$ имеет корень:", a: ["-0.5", "0.5", "-1", "1"], c: 0 },
+        { q: "Если дискриминант равен 81, то $$\\sqrt{D}$$ равен:", a: ["9", "81", "18", "3"], c: 0 },
+        { q: "Чему равен дискриминант $$x^2 + 10x + 25 = 0$$?", a: ["0", "100", "25", "10"], c: 0 },
+        // Синусы/косинусы (геометрия 8)
+        { q: "В прямоугольном треугольнике $$\\sin$$ острого угла — это отношение:", a: ["противолежащего катета к гипотенузе", "прилежащего катета к гипотенузе", "противолежащего к прилежащему", "гипотенузы к катету"], c: 0 },
+        { q: "Чему равен $$\\cos 60^\\circ$$?", a: ["0.5", "$$\\frac{\\sqrt{3}}{2}$$", "$$\\frac{\\sqrt{2}}{2}$$", "1"], c: 0 },
+        { q: "$$\\sin 30^\\circ$$ равен:", a: ["0.5", "$$\\frac{\\sqrt{3}}{2}$$", "$$\\frac{\\sqrt{2}}{2}$$", "1"], c: 0 },
+        { q: "Найдите $$\\cos 45^\\circ$$.", a: ["$$\\frac{\\sqrt{2}}{2}$$", "0.5", "1", "$$\\frac{\\sqrt{3}}{2}$$"], c: 0 },
+        { q: "Основное тригонометрическое тождество: $$\\sin^2 \\alpha + \\cos^2 \\alpha =$$", a: ["1", "0", "$$\\tan \\alpha$$", "гипотенуза"], c: 0 },
+        { q: "В треугольнике ABC угол C = 90°, AB=10, BC=6. Найдите $$\\sin A$$.", a: ["0.6", "0.8", "0.75", "0.5"], c: 0 },
+        { q: "Чему равен $$\\tan 45^\\circ$$? (подсказка: $$\\tan = \\sin/\\cos$$)", a: ["1", "0", "0.5", "$$\\sqrt{2}$$"], c: 0 },
+        { q: "Косинус какого угла равен 0?", a: ["90°", "0°", "45°", "60°"], c: 0 },
+        { q: "В прямоугольном треугольнике катеты 5 и 12. Гипотенуза равна:", a: ["13", "17", "7", "60"], c: 0 },
+        { q: "$$\\sin 60^\\circ =$$", a: ["$$\\frac{\\sqrt{3}}{2}$$", "0.5", "$$\\frac{\\sqrt{2}}{2}$$", "1"], c: 0 },
     ];
 
-    let current = 0, score = 0, timer;
+    let currentQuestionIndex = 0;
+    let correctAnswersCount = 0;
+    let answerLock = false;          // запрет двойного нажатия
+    let testTimerInterval = null;
 
-    function show(id) {
+    // элементы
+    function showScreen(id) {
         document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
         document.getElementById(id).classList.remove('hidden');
     }
 
-    function toInstruction() { show('scr-inst'); }
-
-    function toLoading() {
-        show('scr-load');
-        setTimeout(() => {
-            document.getElementById('load-text').innerText = "Соединение с сервером МАОУ ЛИнТех28...";
-            document.getElementById('load-subtext').innerText = "Проверка прав доступа ученика Плехова Л.А.";
-        }, 2000);
-        setTimeout(() => { show('scr-wait'); startWaiting(); }, 4000);
+    function toInstruction() {
+        showScreen('scr-inst');
     }
 
-    function startWaiting() {
-        // Имитация ожидания учителя (60 секунд)
-        setTimeout(() => {
-            show('scr-test');
-            startRealTimer(45 * 60);
-            renderQ();
-        }, 15000); // Сократил до 15 сек для удобства проверки, можно вернуть 60000
+    function startTest() {
+        showScreen('scr-test');
+        currentQuestionIndex = 0;
+        correctAnswersCount = 0;
+        answerLock = false;
+        // уберём таймер — домашняя работа без ограничения (просто показываем --:--)
+        if (testTimerInterval) clearInterval(testTimerInterval);
+        document.getElementById('timer-box').innerText = '--:--';
+        renderQuestion();
     }
 
-    function startRealTimer(sec) {
-        timer = setInterval(() => {
-            let m = Math.floor(sec / 60), s = sec % 60;
-            document.getElementById('timer-box').innerText = `${m}:${s<10?'0':''}${s}`;
-            if (sec-- <= 0) { clearInterval(timer); finish(); }
-        }, 1000);
-    }
-
-    function renderQ() {
-        const q = questions[current];
-        document.getElementById('progress-text').innerText = `ВОПРОС ${current+1} / ${questions.length}`;
-        document.getElementById('q-text').innerHTML = q.q;
-        document.getElementById('fb').innerText = "";
-        const box = document.getElementById('options-box');
-        box.innerHTML = "";
-        q.a.forEach((opt, i) => {
-            const b = document.createElement('button');
-            b.className = "option-btn";
-            b.innerHTML = opt;
-            b.onclick = () => check(i, b);
-            box.appendChild(b);
-        });
-        if (window.MathJax) MathJax.typesetPromise();
-    }
-
-    function check(i, b) {
-        document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
-        const feedback = document.getElementById('fb');
-        if (i === questions[current].c) {
-            score++;
-            feedback.innerText = ["Супер!", "Ого!", "Молодец!"][Math.floor(Math.random()*3)];
-            feedback.style.color = "var(--md-sys-color-success)";
-        } else {
-            feedback.innerText = "Ой...";
-            feedback.style.color = "var(--md-sys-color-error)";
+    function renderQuestion() {
+        if (currentQuestionIndex >= questions.length) {
+            // После 25 вопросов переходим на iframe-экран (26 задание)
+            showScreen('scr-iframe');
+            return;
         }
+
+        const q = questions[currentQuestionIndex];
+        document.getElementById('progress-text').innerText = `${currentQuestionIndex+1} / ${questions.length}`;
+        document.getElementById('q-text').innerHTML = q.q;
+        document.getElementById('fb').innerText = '';
+        
+        const optionsDiv = document.getElementById('options-box');
+        optionsDiv.innerHTML = '';
+        
+        q.a.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerHTML = opt;
+            btn.onclick = () => handleAnswer(idx, btn);
+            optionsDiv.appendChild(btn);
+        });
+
+        // перерендерить формулы MathJax
+        if (window.MathJax) {
+            MathJax.typesetPromise();
+        }
+    }
+
+    function handleAnswer(selectedIdx, btn) {
+        if (answerLock) return;
+        answerLock = true;
+
+        const q = questions[currentQuestionIndex];
+        const isCorrect = (selectedIdx === q.c);
+        if (isCorrect) correctAnswersCount++;
+
+        const feedback = document.getElementById('fb');
+        if (isCorrect) {
+            feedback.innerText = '✅ Верно!';
+            feedback.style.color = '#1e7a44';
+        } else {
+            feedback.innerText = '❌ Не совсем, попробуй в следующий раз.';
+            feedback.style.color = '#b3261e';
+        }
+
+        // деактивируем все кнопки
+        document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+
         setTimeout(() => {
-            current++;
-            if (current < questions.length) renderQ();
-            else finish();
+            // переход к следующему вопросу
+            currentQuestionIndex++;
+            answerLock = false;
+            renderQuestion();
         }, 1000);
     }
 
-    function finish() {
-        clearInterval(timer);
-        show('scr-end');
-        document.getElementById('final-res').innerText = `Лев, работа завершена. Верных ответов: ${score} из ${questions.length}. Результаты переданы Пиковой М.В.`;
+    // Функция финальной отправки (кнопка на iframe-экране)
+    function finalSubmit() {
+        // Здесь можно сохранить результат (если нужно)
+        showScreen('scr-end');
+        document.getElementById('final-res').innerHTML = `Лев, ты ответил правильно на ${correctAnswersCount} из ${questions.length} основных вопросов.<br>Дополнительное задание отмечено как выполненное.`;
     }
+
+    // Если пользователь случайно хочет перейти к iframe не закончив тест — не дадим, но у нас логика через startTest.
+
+    // Для красоты добавим простую имитацию «отправки» по кнопке в конце.
+
+    // Активируем MathJax для любых динамических вставок
+    document.addEventListener("DOMContentLoaded", function() {
+        if (window.MathJax) {
+            MathJax.typesetPromise();
+        }
+    });
+
+    // также можно добавить перехват кнопки назад
+    window.onload = function() {
+        // начальный экран уже виден
+    };
 </script>
 </body>
 </html>
